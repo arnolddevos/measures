@@ -84,6 +84,26 @@ fn cp_net() -> Net<Volt> {
     }   
 }
 
+fn pp_net() -> Net<Volt> {
+    Net {
+
+        title: "PP Circuit",
+
+        cct: |v: Volt| {
+            let r1 = Ohm(300.0*k);
+            let r2 = Ohm(200.0*k);
+
+            v + r2 | r1
+        },
+
+        drive: { 
+            [Volt(0.0), Volt(2.0), Volt(5.0)] 
+        },
+
+        cap: Farad(100.0*n),
+    }   
+}
+
 fn open_evse_cp_net() -> Net<Volt> {
     Net {
 
@@ -125,5 +145,6 @@ fn main() {
     ct_net().describe();
     line_net().describe();
     cp_net().describe();
+    pp_net().describe();
     open_evse_cp_net().describe();
 }
