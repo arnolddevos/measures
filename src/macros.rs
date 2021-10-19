@@ -1,13 +1,12 @@
 macro_rules! measure {
     ($id:ident, $symbol:expr) => {
-
         #[derive(Debug, Copy, Clone, PartialOrd, PartialEq, Default)]
         pub struct $id(pub f64);
 
         impl fmt::Display for $id {
             fn fmt(&self, dst: &mut fmt::Formatter) -> fmt::Result {
                 let (prefix, scale) = engineering(self.0);
-                let value = self.0/scale;
+                let value = self.0 / scale;
                 let fract = precision(value);
                 write!(dst, "{:.*}{}{}", fract, value, prefix, $symbol)
             }
@@ -15,48 +14,49 @@ macro_rules! measure {
 
         impl Neg for $id {
             type Output = $id;
-            fn neg(self) -> $id { $id(-self.0) }
+            fn neg(self) -> $id {
+                $id(-self.0)
+            }
         }
 
         impl Add<$id> for $id {
             type Output = $id;
-            fn add(self, rhs: $id) -> $id { 
+            fn add(self, rhs: $id) -> $id {
                 $id(self.0 + rhs.0)
             }
         }
- 
 
         impl Sub<$id> for $id {
             type Output = $id;
-            fn sub(self, rhs: $id) -> $id { 
+            fn sub(self, rhs: $id) -> $id {
                 $id(self.0 - rhs.0)
             }
         }
- 
+
         impl Div<$id> for $id {
             type Output = f64;
-            fn div(self, rhs: $id) -> f64 { 
+            fn div(self, rhs: $id) -> f64 {
                 self.0 / rhs.0
             }
         }
 
         impl Div<f64> for $id {
             type Output = $id;
-            fn div(self, rhs: f64) -> $id { 
+            fn div(self, rhs: f64) -> $id {
                 $id(self.0 / rhs)
             }
         }
 
         impl Mul<f64> for $id {
             type Output = $id;
-            fn mul(self, rhs: f64) -> $id { 
+            fn mul(self, rhs: f64) -> $id {
                 $id(self.0 * rhs)
             }
         }
 
         impl Mul<$id> for f64 {
             type Output = $id;
-            fn mul(self, rhs: $id) -> $id { 
+            fn mul(self, rhs: $id) -> $id {
                 $id(self * rhs.0)
             }
         }
@@ -65,7 +65,7 @@ macro_rules! measure {
 
 pub(crate) use measure;
 
-macro_rules!  product {
+macro_rules! product {
     ($a:ident, $b:ident, $c:ident) => {
         impl Mul<$b> for $a {
             type Output = $c;
@@ -100,12 +100,11 @@ macro_rules! inverse_sum_inverse {
     ($id:ident) => {
         impl BitOr<$id> for $id {
             type Output = $id;
-            fn bitor(self, rhs: $id) -> $id { 
+            fn bitor(self, rhs: $id) -> $id {
                 if self.0 == 0.0 && rhs.0 == 0.0 {
                     $id(0.0)
-                }
-                else {
-                    $id(self.0 * rhs.0/(self.0 + rhs.0))
+                } else {
+                    $id(self.0 * rhs.0 / (self.0 + rhs.0))
                 }
             }
         }
@@ -114,7 +113,7 @@ macro_rules! inverse_sum_inverse {
 
 pub(crate) use inverse_sum_inverse;
 
-macro_rules!  inverse {
+macro_rules! inverse {
     ($a:ident, $b:ident) => {
         impl Mul<$b> for $a {
             type Output = f64;

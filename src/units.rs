@@ -1,8 +1,8 @@
-use core::ops::{Mul, Add, Sub, Div, Neg, BitOr};
 use core::fmt;
+use core::ops::{Add, BitOr, Div, Mul, Neg, Sub};
 
-pub use crate::scale::*;
 use crate::macros::*;
+pub use crate::scale::*;
 
 measure!(Ohm, "Ω");
 measure!(Siemen, "S");
