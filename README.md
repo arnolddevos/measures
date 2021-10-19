@@ -1,6 +1,6 @@
 # Measures
 
-This project includes a naescent unit-of-measure library I will call _measures_.  
+A unit-of-measure library, _measures_.  
 This enables you to write type-checked expressions in terms of SI units.
 
 There is also a representation of Thevenin and Norton equivalent circuits for
