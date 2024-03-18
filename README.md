@@ -77,7 +77,7 @@ These rules define further operators between the types:
 ##  Equivalent Circuits.
 
 A `Cct` type is provided to help with simple DC circuit calculations.  It represents a 
-Thevenin or Norton equivalent circuit. Ref:  https://en.wikipedia.org/wiki/Thévenin%27s_theorem
+Thevenin or Norton equivalent circuit. Ref:  [wikipedia](https://en.wikipedia.org/wiki/Thévenin%27s_theorem)
 
 A Thevenin `Cct` is created by combining a `Volt` and an `Ohm` measure: `v + r`.  Here `+` is
 the series operator.  
@@ -113,7 +113,7 @@ Care must be taken with very low resistance or conductance:
 
 ```rust
 let vs = Volt(x) + Ohm(0.0);    // OK: zero resistance voltage source
-let is = Amp(x) + Siemen(0.0);  // OK: zero conductance current source
+let is = Amp(x) | Siemen(0.0);  // OK: zero conductance current source
 let i = vs.i_short();           // error: infinite current in short circuit
 let v = is.v_open();            // error: infinite voltage in open circuit
 let p = vs | vs;                // error: can't parallel pure voltage sources
@@ -125,7 +125,7 @@ The result has the same resistance (conductance) but the voltage (current) sourc
 is reversed. 
 
 The following brash one-liner uses the `circuit` defined above and 
-seeks to represent a wheatstone bridge:
+seeks to represent a Wheatstone bridge:
 
 ```rust
 let w =  - circuit + circuit;  
